@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Rani</title>
+    <style>
+        /* CSS: This makes it look cute and centers everything */
+        body {
+            background-color: #fce4ec; /* Light pink background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive; /* Cute font */
+            flex-direction: column;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: 2px solid #333;
+            border-radius: 50px;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background-color: #ffccbc;
+            transform: scale(1.05);
+        }
+
+        /* Special style for the polaroid photo at the end */
+        .polaroid {
+            background: white;
+            padding: 10px 10px 40px 10px;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            transform: rotate(-3deg);
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <img id="mainImage" src="cat-intro.jpg" alt="Cute Cat"> <h2 id="mainText">Hiiieee kuch Banye hai :)<br>Dekho Giiiiiiiii?</h2>
+        
+        <div class="btn-container" id="btnContainer">
+            <button onclick="handleYes()">yes</button>
+            <button onclick="handleNo()">no</button>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // JAVASCRIPT: This handles the logic/clicks
+
+        // Variables for elements
+        const image = document.getElementById('mainImage');
+        const text = document.getElementById('mainText');
+        const btnContainer = document.getElementById('btnContainer');
+        const music = document.getElementById('bgMusic');
+
+        // State tracker
+        let step = 0;
+
+        function handleNo() {
+            image.src = "cat-gun.jpg"; // Change to gun cat image
+            text.innerHTML = "MARNGENAAAAAAAAAAAAAAAA!";
+            btnContainer.innerHTML = '<button onclick="reset()">Back</button>';
+        }
+
+        function reset() {
+            image.src = "cat-intro.jpg";
+            text.innerHTML = "hey i made something for you<br>Will you see it?";
+            btnContainer.innerHTML = `
+                <button onclick="handleYes()">yes</button>
+                <button onclick="handleNo()">no</button>
+            `;
+            step = 0;
+        }
+
+        function handleYes() {
+            // Start music on first interaction if you want
+            music.play().catch(e => console.log("Audio play failed due to browser policy"));
+
+            if (step === 0) {
+                // Step 1: Click below for surprise
+                image.src = "cat-blush.jpg"; 
+                text.innerHTML = "Hehe! <br> click Krooo !!";
+                btnContainer.innerHTML = '<button onclick="nextStep()">next</button>';
+                step++;
+            }
+        }
+
+        function nextStep() {
+            if (step === 1) {
+                // Step 2: Flower Cat
+                image.src = "cat-flowers.jpg";
+                text.innerHTML = "Happy new year my kuchupuchu!!<br>click on the gift box";
+                // Simulate gift box button using emoji
+                btnContainer.innerHTML = '<button onclick="nextStep()">🎁</button>';
+                step++;
+            } 
+            else if (step === 2) {
+                // Step 3: Camera Cat
+                image.src = "cat-camera.jpg";
+                text.innerHTML = "SMILEEEEE<br>Click on the camera to reveal photo!!";
+                btnContainer.innerHTML = '<button onclick="nextStep()">📸</button>';
+                step++;
+            }
+            else if (step === 3) {
+                // Final Step: Personal Photo
+                image.src = "my-photo.jpg"; 
+                image.classList.add("polaroid"); // Add polaroid style
+                text.innerHTML = "I Love You ❤️";
+                btnContainer.innerHTML = ''; // No more buttons
+            }
+        }
+    </script>
+</body>
+</html>
