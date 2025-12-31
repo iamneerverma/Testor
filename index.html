@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For My Rimjhim</title>
     <style>
+        /* CSS: Styles for the card and elements */
         body {
-            background-color: #fce4ec; 
+            background-color: #fce4ec; /* Light pink background */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -26,7 +27,7 @@
             width: 90%;
         }
 
-        img {
+        img, video {
             width: 100%;
             height: auto;
             border-radius: 10px;
@@ -61,7 +62,7 @@
             transform: scale(1.05);
         }
 
-        
+        /* Special style for the polaroid photo */
         .polaroid {
             background: white;
             padding: 10px 10px 40px 10px;
@@ -70,6 +71,7 @@
             transform: rotate(-3deg);
         }
         
+        /* Class to hide elements */
         .hidden {
             display: none;
         }
@@ -78,7 +80,15 @@
 <body>
 
     <div class="card" id="mainCard">
-        <img id="mainImage" src="cat-intro.jpg" alt="Cute Cat"> <h2 id="mainText">Hiiieee kuch Banye hai :)<br>Dekho Giiiiiiiii?</h2>
+        <img id="mainImage" src="cat-intro.jpg" alt="Cute Cat"> 
+        
+        <video id="mainVideo" class="hidden" controls>
+            <source src="our-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <h2 id="mainText">Hiiieee kuch Banye hai
+             :)<br>Dekho Giiiiiiiii?</h2>
         
         <div class="btn-container" id="btnContainer">
             <button onclick="handleYes()">yes</button>
@@ -91,10 +101,11 @@
     </audio>
 
     <script>
-        // JAVASCRIPT: This handles the logic/clicks
+        // JAVASCRIPT: Logic to handle clicks
 
         // Variables for elements
         const image = document.getElementById('mainImage');
+        const video = document.getElementById('mainVideo'); // New video variable
         const text = document.getElementById('mainText');
         const btnContainer = document.getElementById('btnContainer');
         const music = document.getElementById('bgMusic');
@@ -103,13 +114,15 @@
         let step = 0;
 
         function handleNo() {
-            image.src = "cat-gun.jpg"; // Change to gun cat image
+            image.src = "cat-gun.jpg"; 
             text.innerHTML = "MARNGENAAAAAAAAAAAAAAAA!";
             btnContainer.innerHTML = '<button onclick="reset()">Back</button>';
         }
 
         function reset() {
             image.src = "cat-intro.jpg";
+            image.classList.remove("hidden");
+            video.classList.add("hidden");
             text.innerHTML = "Hiiieee kuch Banye hai :)<br>Dekho Giiiiiiiii?";
             btnContainer.innerHTML = `
                 <button onclick="handleYes()">yes</button>
@@ -119,11 +132,10 @@
         }
 
         function handleYes() {
-            // Start music on first interaction if you want
             music.play().catch(e => console.log("Audio play failed due to browser policy"));
 
             if (step === 0) {
-                // Step 1: Click below for surprise
+                // Step 1: Blush
                 image.src = "cat-blush.jpg"; 
                 text.innerHTML = "Hehe! <br> click Krooo !!";
                 btnContainer.innerHTML = '<button onclick="nextStep()">next</button>';
@@ -135,28 +147,39 @@
             if (step === 1) {
                 // Step 2: Flower Cat
                 image.src = "cat-flowers.jpg";
-                text.innerHTML = "Happy new year my kuchupuchu!!<br>click on the gift box";
-                // Simulate gift box button using emoji
+                text.innerHTML = "Happy new year my kuchupuchu!!<br>Gift box Touch kro";
                 btnContainer.innerHTML = '<button onclick="nextStep()">🎁</button>';
                 step++;
             } 
             else if (step === 2) {
                 // Step 3: Camera Cat
                 image.src = "cat-camera.jpg";
-                text.innerHTML = "SMILEEEEE<br>Click on the camera to reveal photo!!";
+                text.innerHTML = "SMILEEEEE<br>AB Camera pr click kro !!";
                 btnContainer.innerHTML = '<button onclick="nextStep()">📸</button>';
                 step++;
             }
             else if (step === 3) {
-                // Final Step: Personal Photo
+                // Step 4: Personal Photo
                 image.src = "my-photo.jpg"; 
                 image.classList.add("polaroid"); 
-                text.innerHTML = "I Love You ❤️";
-                btnContainer.innerHTML = ''; 
+                text.innerHTML = "I Love You ❤️ <br> wait... ek aur cheez hai!";
+                // Button to go to video
+                btnContainer.innerHTML = '<button onclick="nextStep()">Watch Video ▶️</button>'; 
+                step++;
+            }
+            else if (step === 4) {
+                // Final Step: Video Reveal
+                image.classList.add("hidden"); // Hide the image
+                video.classList.remove("hidden"); // Show the video
+                
+                // Optional: Pause background music so video audio can be heard
+                music.pause(); 
+                video.play(); // Auto play video
+
+                text.innerHTML = " New Year Dance 🤣💀";
+                btnContainer.innerHTML = ''; // No more buttons
             }
         }
     </script>
 </body>
-
 </html>
-
